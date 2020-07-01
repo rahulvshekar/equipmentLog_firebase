@@ -1,0 +1,192 @@
+
+<!DOCTYPE html>
+
+<html class="no-js">
+    
+	<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Labyrinth &mdash; Equipment Log</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Equipment Log" />
+
+	
+	<!-- Animate.css -->
+	<link rel="stylesheet" href="css/animate.css">
+	<!-- Icomoon Icon Fonts-->
+	<link rel="stylesheet" href="css/icomoon.css">
+	<!-- Bootstrap  -->
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<!-- Flexslider  -->
+	<link rel="stylesheet" href="css/flexslider.css">
+	<!-- Theme style  -->
+	<link rel="stylesheet" href="css/style.css">
+
+	<!-- Modernizr JS -->
+	<script src="js/modernizr-2.6.2.min.js"></script>
+	<!-- FOR IE9 below -->
+	<!--[if lt IE 9]>
+	<script src="js/respond.min.js"></script>
+	<![endif]-->
+
+	</head>
+	<body>
+		<!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-database.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-analytics.js"></script>
+
+    <script>
+      // Your web app's Firebase configuration
+      var Config = {
+        apiKey: "AIzaSyDFOzQbAZihpY1yri-_I_XcHJBCDQ9xGNI",
+        authDomain: "equipmentlog-685dc.firebaseapp.com",
+        databaseURL: "https://equipmentlog-685dc.firebaseio.com",
+        projectId: "equipmentlog-685dc",
+        storageBucket: "equipmentlog-685dc.appspot.com",
+        messagingSenderId: "528998334720",
+        appId: "1:528998334720:web:2da9640b8170cc464073e5",
+        measurementId: "G-RY3NRN41FJ"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(Config);
+      firebase.analytics();
+        
+        var fb = firebase.database();
+    </script>
+        <script src = "https://code.jquery.com/jquery-3.1.0.js"></script>		
+		<script>
+			function writeUserData(){
+						fb.ref('Equipment').push({
+							Equipment_type : document.getElementById("Etype").value,
+							Serial_no : document.getElementById("Sno").value,
+							User : document.getElementById("Email").value,
+							Comments : document.getElementById("comments").value
+						});
+					}
+            var ref = fb.ref('Equipment');
+            ref.on('value', gotData, errData);
+            
+            function gotData(data){
+                //console.log(data.val());
+                var equipment=  data.val();
+                var keys = Object.keys(equipment);
+                //console.log(keys);
+                  var ul = document.getElementById("equip_list");
+
+                for ( var i=0; i<keys.length; i++) {
+                    var k = keys[i];
+                    var equip_type = equipment[k].Equipment_type;
+                    var serial_no = equipment[k].Serial_no;
+                    var user = equipment[k].User;
+                    var coms = equipment[k].Comments;
+                    console.log(equip_type, serial_no, user, coms);
+                    var li = document.createElement('li');
+                    li.appendChild(document.createTextNode("Etype :" + equip_type + "\t Sno :" + serial_no + "\t User :" + user + "\t Comments :" + coms));
+                    ul.appendChild(li);
+                }
+            }
+            
+            function errData(data){
+                console.log("Error!");
+                console.log(err);
+            }
+
+        </script>
+
+	<div id="fh5co-page">
+		<a href="#" class="js-fh5co-nav-toggle fh5co-nav-toggle"><i></i></a>
+		<aside id="fh5co-aside" role="complementary" class="border js-fullheight">
+
+			<h1 id="fh5co-logo"><a href="http://labyrinth.ai/">Labyrinth</a></h1>
+			<nav id="fh5co-main-menu" role="navigation">
+				<ul>
+					<li class="fh5co-active"><a href="contact.html">Equipments</a></li>
+					<!--<li><a href="index.html">Home</a></li>
+					<li><a href="blog.html">Blog</a></li>
+					<li><a href="portfolio.html">Portfolio</a></li>
+					<li><a href="about.html">About</a></li>-->
+				</ul>
+			</nav>
+
+			<div class="fh5co-footer">
+				<p><small>&copy; Labyrinth.ai <span><a href="http://labyrinth.ai/" target="_blank"></a> </span></small></p>
+			</div>
+
+		</aside>
+
+		<div id="fh5co-main">
+			<div class="fh5co-narrow-content animate-box" data-animate-effect="fadeInLeft">
+				
+				<div class="row">
+					<div class="col-md-4">
+						<h1>Equipment Details</h1>
+					</div>
+				</div>
+				<form action="">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<input type="text" class="form-control" placeholder="Equipment Type" id="Etype">
+									</div>
+									<div class="form-group">
+										<input type="text" class="form-control" placeholder="Serial No." id="Sno">
+									</div>
+									<div class="form-group">
+										<input type="text" class="form-control" placeholder="User Email" id="Email">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<textarea name="comments" id="comments" cols="30" rows="7" class="form-control" placeholder="Comments"></textarea>
+									</div>
+									<div class="form-group">
+										<input type="submit" class="btn btn-primary btn-md" value="Submit" onclick="writeUserData()">
+									</div>
+								</div>
+								
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>	
+		</div>
+	</div>
+
+    <div id="fh5co-main">
+        <div class="fh5co-narrow-content animate-box" data-animate-effect="fadeInLeft">
+            <div class="row">
+					<div class="col-md-20">
+						<h1>Equipment Details</h1>
+                        <h1 id = 'equip_list'> 
+                            
+                        </h1>
+					</div>
+				</div>
+        </div>
+    </div>
+            
+        
+	<!-- jQuery -->
+	<script src="js/jquery.min.js"></script>
+	<!-- jQuery Easing -->
+	<script src="js/jquery.easing.1.3.js"></script>
+	<!-- Bootstrap -->
+	<script src="js/bootstrap.min.js"></script>
+	<!-- Waypoints -->
+	<script src="js/jquery.waypoints.min.js"></script>
+	<!-- Flexslider -->
+	<script src="js/jquery.flexslider-min.js"></script>
+	<!-- MAIN JS -->
+
+
+	<script src="js/main.js"></script>
+
+	</body>
+</html>
+
